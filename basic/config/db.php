@@ -2,8 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'dsn' => 'mysql:host=localhost;dbname=typisch_tango_yii2',
     'username' => 'root',
-    'password' => '',
+    'password' => 'asdfcv',
     'charset' => 'utf8',
+		'tablePrefix' => 'tt2_',
 ];
