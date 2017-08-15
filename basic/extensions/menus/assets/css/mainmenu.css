@@ -1,0 +1,55 @@
+/* 
+    Created on : 23.01.2015, 13:42:02
+    Author     : Admin
+*/
+
+#mainmenu li.intern {
+	font-weight: bold;
+}
+
+#mainmenu li.login {
+	font-style: italic;
+}
+
+#mainmenu li.logout {
+	font-style: italic;
+}
+
+#mainmenu li.bold > a {
+	font-weight: bold;
+}
+
+#mainmenu li.italic > a {
+	font-style: italic;
+}
+
+.navbar-brand {
+	font-size: 14px;
+	padding: 5px;
+}
+
+.navbar-brand > img {
+	display: inline;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	outline: 0px solid black;
+}
+
+#mainmenu .nav > li > a {
+	padding: 15px 2px;
+}
+
+@media(min-width: 400px) {
+
+	.navbar-brand {
+		font-size: 18px;
+	}
+}
+
+@media(min-width: 992px) {
+	#mainmenu .nav > li > a {
+		padding: 15px 10px;
+	}
+}
+

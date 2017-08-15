@@ -1,0 +1,24 @@
+/* 
+    Created on : 23.01.2015, 13:42:02
+    Author     : Admin
+*/
+
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar-brand {
+	padding: 5px;
+}
+
+.navbar-brand > img {
+	display: inline;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	margin-left: 15px;
+	outline: 0px solid black;
+}

@@ -1,0 +1,24 @@
+/* 
+    Created on : 23.01.2015, 13:42:02
+    Author     : Admin
+*/
+
+#usermenu .navbar {
+	margin:0px;
+}
+
+#usermenu .navbar-inverse .navbar-inner {
+	background: transparent;
+	border: 0pt solid black;
+}
+
+#usermenu .navbar .nav-list li {
+	float: none;
+}
+
+#usermenu .navbar .nav > li > a {
+	float: none;
+	padding: 5px 5px;
+	text-decoration: none;
+}
+

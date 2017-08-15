@@ -5,6 +5,7 @@ $db = require(__DIR__ . '/db.php');
 
 $config = [
 	'id' => 'basic',
+	'name' => 'Tango Argentino e.V. Erfurt',
 	'basePath' => dirname(__DIR__),
 	'bootstrap' => ['log'],
 	'components' => [
