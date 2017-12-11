@@ -78,12 +78,46 @@ class CopyController
 				'id', 'name', 'menu_id', 'parent_id',
 				'icon', 'description', 'website', 'params',
 				'subitems_controller', 'css_class', 'order', 'restricted',
-				'visible', 'change_freq', 'in_sitemap'
+				'visible', 'change_freq', 'in_sitemap',
 			]
 		);
 	
-	}
+		$this->copyTable(
+			'tt_article_status', '\app\modules\blog\models\BlogArticleStatus',
+			[
+				'id', 'name', 'description',
+			]
+		);
 		
+		$this->copyTable(
+			'tt_article_status', '\app\modules\blog\models\BlogArticleCategory',
+			[
+				'id', 'name', 'description',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_article_keyword', '\app\modules\blog\models\BlogArticleKeyword',
+			[
+				'id', 'name', 'description',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_article_keyword_rel', '\app\modules\blog\models\BlogArticleKeywordRel',
+			[
+				'article_id', 'keyword_id',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_article', '\app\modules\blog\models\BlogArticle',
+			[
+				'id', 'pub_date', 'category_id', 'status_id',
+				'title', 'url', 'content', 'description',
+			]
+		);
+	}
 		
 	private function copyTable($oldTableName, $newClassName, $fieldNames)
 	{
