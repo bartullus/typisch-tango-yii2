@@ -8,6 +8,14 @@ $config = [
 	'name' => 'Tango Argentino e.V. Erfurt',
 	'basePath' => dirname(__DIR__),
 	'bootstrap' => ['log'],
+
+	'modules' => [
+		'blog' => [
+			'class' => 'app\modules\blog\Module',
+			'class' => 'app\modules\map\Module',
+		],
+	],     
+
 	'components' => [
 			
 		'db' => $db,
@@ -63,12 +71,6 @@ $config = [
 			],
 		],
 			
-		'modules' => [
-			'blog' => [
-				'class' => 'app\modules\blog\Module',
-			],
-		],
-       
   ],
   
 	'params' => $params,

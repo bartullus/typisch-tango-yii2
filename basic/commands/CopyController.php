@@ -85,28 +85,27 @@ class CopyController
 		$this->copyTable(
 			'tt_article_status', '\app\modules\blog\models\BlogArticleStatus',
 			[
-				'id', 'name', 'description',
+				'id', 
+				'name', 
+				'description',
 			]
 		);
 		
 		$this->copyTable(
-			'tt_article_status', '\app\modules\blog\models\BlogArticleCategory',
+			'tt_article_category', '\app\modules\blog\models\BlogArticleCategory',
 			[
-				'id', 'name', 'description',
+				'id', 
+				'name', 
+				'description',
 			]
 		);
 		
 		$this->copyTable(
 			'tt_article_keyword', '\app\modules\blog\models\BlogArticleKeyword',
 			[
-				'id', 'name', 'description',
-			]
-		);
-		
-		$this->copyTable(
-			'tt_article_keyword_rel', '\app\modules\blog\models\BlogArticleKeywordRel',
-			[
-				'article_id', 'keyword_id',
+				'id', 
+				'name', 
+				//'description',
 			]
 		);
 		
@@ -117,9 +116,77 @@ class CopyController
 				'title', 'url', 'content', 'description',
 			]
 		);
+		
+		$this->copyTable(
+			'tt_article_keyword_rel', '\app\modules\blog\models\BlogArticleKeywordRel',
+			[
+				'article_id', 'keyword_id',
+			]
+		);
+
+		$this->copyTable(
+			'tt_newsletter', '\app\modules\blog\models\BlogReceiver',
+			[
+				'id', 'name', 'prename', 'email',
+				'info', 'member', 'valid', 'birthdate',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_newsletter_send', '\app\modules\blog\models\BlogReceiverArticle',
+			[
+				'id', 
+				'newsletter_id' => 'receiver_id', 
+				'article_id', 
+				'result',
+			],
+			[ 'receiver_id', 'article_id' ]
+		);
+		
+		$this->copyTable(
+			'tt_newsletter_code', '\app\modules\blog\models\BlogReceiverCode',
+			[
+				'id', 'code', 'name', 'prename', 'email', 'verified', 'ip_addr',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_newsletter_blacklist', '\app\modules\blog\models\BlogReceiverBlacklist',
+			[
+				'id', 'email', 'description',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_map_state', '\app\modules\map\models\MapState',
+			[
+					'id', 'shortcut', 'name', 'url',
+					'latitude', 'longitude', 'mapZoomLevel',
+			]
+		);
+
+		$this->copyTable(
+			'tt_map_region', '\app\modules\map\models\MapRegion',
+			[
+					'id', 'state_id', 'shortcut', 'name', 'url',
+					'latitude', 'longitude', 'mapZoomLevel',
+			]
+		);
+
+		$this->copyTable(
+			'tt_map_city', '\app\modules\map\models\MapCity',
+			[
+					'id', 'region_id', 'shortcut', 'name', 'url',
+					'latitude', 'longitude', 'mapZoomLevel',
+			]
+		);
 	}
 		
-	private function copyTable($oldTableName, $newClassName, $fieldNames)
+	private function copyTable(
+					$oldTableName, 
+					$newClassName, 
+					$fieldNames,
+					$checkDuplicateFields = null)
 	{
 		echo "Start Copy $oldTableName\r\n";
 		
@@ -136,7 +203,11 @@ class CopyController
 		foreach($oldRecords as $oldRec) {
 			
 			$newRec = $newClass->newInstance();
-			$this->copyFields($newRec, $oldRec, $fieldNames);
+			$newRecT = $this->copyFields($newRec, $oldRec, $fieldNames);
+			if (!$this->checkDuplicates($checkDuplicateFields, $newRec, $newClass)) {
+				continue;
+			}	
+			$newRecT->save(false);		
 		}
 		
 		$findMethod = $newClass->getMethod('find');
@@ -148,21 +219,61 @@ class CopyController
 	
 	private function copyFields($newRec, $oldRec, $fieldNames) {
 		
-		foreach ($fieldNames as $name)  {
-			$newRec->$name = $oldRec[$name];
+		foreach ($fieldNames as $oldName => $newName) {
+			if(array_key_exists($oldName, $oldRec)) {
+				$value = $oldRec[$oldName];
+			} elseif (array_key_exists($newName, $oldRec)) {
+				$value = $oldRec[$newName];
+			} else {
+				echo "ERROR missing field $oldName/$newName in old record!";
+				continue;
+			}
+			
+			if ($newRec->hasAttribute($newName)) {
+				$newRec->$newName = $value;
+			} else {
+				echo "ERROR missing field $newName in new record!";
+			}
 		}
-		
-		$newRecT = $this->copyTimestamp($newRec, $oldRec);
-		$newRecT->save(false);
+	
+		return $this->copyTimestamp($newRec, $oldRec);		
+	}
+	
+	private function checkDuplicates($fieldNames, $newRec, $newClass) {
+	
+		if (!isset($fieldNames)) {
+			return true;
+		}
+			
+		$findParams = [];
+		foreach($fieldNames as $fldName) {
+			$findParams[$fldName] = $newRec->$fldName;
+		}
+
+		$findAllMethod = $newClass->getMethod('findAll');
+		$otherRecs = $findAllMethod->invoke($newRec, $findParams);
+		if (count($otherRecs) > 0) {
+			echo "WARNING other records found ";
+			print_r($findParams);
+			return false;
+		}
+		return true;
 	}
 	
 	private function copyTimestamp($newRec, $oldRec) {
 		
-		$newRec->create_time    = $oldRec['create_time'];
-		$newRec->create_user_id = $oldRec['create_user_id'];
-		$newRec->update_time    = $oldRec['update_time'];
-		$newRec->update_user_id = $oldRec['update_user_id'];
-		return $newRec;
+		$timestampFields = [
+				'create_time',
+				'create_user_id',
+				'update_time',
+				'update_user_id',
+		];
 		
+		foreach($timestampFields as $fldName) {
+			if ($newRec->hasAttribute($fldName)) {
+				$newRec->$fldName = $oldRec[$fldName];
+			}
+		}
+		return $newRec;
 	}
 }
