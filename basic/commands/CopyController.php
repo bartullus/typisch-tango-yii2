@@ -192,8 +192,8 @@ class CopyController
 		
 		$command = $this->db_old->createCommand("SELECT * FROM $oldTableName");
 		$oldRecords = $command->queryAll();
-		
-		echo "\tCopy: ".count($oldRecords)."\r\n";
+		$oldCnt = count($oldRecords);
+		echo "\tCopy: $oldCnt\r\n";
 		//echo print_r($oldMenus, true);
 		
 		$newClass = new \ReflectionClass($newClassName);
@@ -212,7 +212,7 @@ class CopyController
 		
 		$findMethod = $newClass->getMethod('find');
 		$cnt = $findMethod->invoke(null)->count();
-		echo "\tCopied: ".$cnt."\r\n";
+		echo "\tCopied: $cnt/$oldCnt\r\n";
 		
 		echo "End Copy $oldTableName\r\n";
 	}
@@ -232,7 +232,7 @@ class CopyController
 			if ($newRec->hasAttribute($newName)) {
 				$newRec->$newName = $value;
 			} else {
-				echo "ERROR missing field $newName in new record!";
+				echo "ERROR missing field $newName in new record!\r\n";
 			}
 		}
 	
@@ -246,15 +246,17 @@ class CopyController
 		}
 			
 		$findParams = [];
+		$findParamsStr = "";
 		foreach($fieldNames as $fldName) {
-			$findParams[$fldName] = $newRec->$fldName;
+			$value = $newRec->$fldName;
+			$findParams[$fldName] = $value;
+			$findParamsStr.= "$fldName=$value, ";
 		}
 
 		$findAllMethod = $newClass->getMethod('findAll');
 		$otherRecs = $findAllMethod->invoke($newRec, $findParams);
 		if (count($otherRecs) > 0) {
-			echo "WARNING other records found ";
-			print_r($findParams);
+			echo "WARNING other records found cnt: ".count($otherRecs)." $findParamsStr\r\n";
 			return false;
 		}
 		return true;

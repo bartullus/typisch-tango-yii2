@@ -170,7 +170,7 @@ class m171211_204411_blog extends Migration
 				'ip_addr'        => $this->string(64),
 				
 				'create_time'    => $this->datetime(),
-				'create_user_id' => $this->integer(),
+				'update_time'    => $this->datetime(),
 			],
 			'ENGINE=InnoDB'
 		);
