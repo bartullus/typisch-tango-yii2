@@ -199,13 +199,13 @@ class m171211_204411_blog extends Migration
 	{
 		echo "revert m171211_204411_blog\n";
 
+		$this->dropTable('{{%blog_receiver_article_rel}}');
 		$this->dropTable('{{%blog_article_keyword_rel}}');
 		$this->dropTable('{{%blog_article}}');
 		$this->dropTable('{{%blog_article_keyword}}');
 		$this->dropTable('{{%blog_article_category}}');
 		$this->dropTable('{{%blog_article_status}}');
 		$this->dropTable('{{%blog_receiver}}');
-		$this->dropTable('{{%blog_receiver_article_rel}}');
 		$this->dropTable('{{%blog_receiver_code}}');
 		$this->dropTable('{{%blog_receiver_blacklist}}');
 
