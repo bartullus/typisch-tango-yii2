@@ -14,7 +14,7 @@ class m180504_162105_calendar extends Migration
 		/*** cal_event_category                                          ***/
 		/*******************************************************************/
 		
-		$this->createTable('{{%cal_event_category}}',
+		$this->createTable('{{%cal_event_category}}', // tt_calendar_category
 			[
 				'id'             => $this->primaryKey(),
 				'name'           => $this->string()->notNull(),	
@@ -42,7 +42,7 @@ class m180504_162105_calendar extends Migration
 		/*** cal_location                                                ***/
 		/*******************************************************************/
 
-		$this->createTable('{{%cal_location}}',
+		$this->createTable('{{%cal_location}}', // tt_calendar_location
 			[
 				'id'             => $this->primaryKey(),
 				'name'           => $this->string()->notNull(),	
@@ -89,10 +89,10 @@ class m180504_162105_calendar extends Migration
 		/*** cal_event                                                   ***/
 		/*******************************************************************/
 
-		$this->createTable('{{%cal_event}}',
+		$this->createTable('{{%cal_event}}', // tt_calendar_event
 			[
 				'id'             => $this->primaryKey(),
-				'tile'           => $this->string()->notNull(),	
+				'title'           => $this->string()->notNull(),	
 				'url'            => $this->string(),	
 				'description'    => $this->text(),
 				'event_website'  => $this->string(),	
@@ -136,16 +136,21 @@ class m180504_162105_calendar extends Migration
 		);
 
 		$this->createIndex('idx-cal_event-title', '{{%cal_event}}', 'title');
+		$this->createIndex('idx-cal_event-parent_id', '{{%cal_event}}', 'parent_id');
 		$this->createIndex('idx-cal_event-category_id', '{{%cal_event}}', 'category_id');
 		$this->createIndex('idx-cal_event-location_id', '{{%cal_event}}', 'location_id');
 		$this->createIndex('idx-cal_event-organisator_id', '{{%cal_event}}', 'organisator_id');
-		$this->createIndex('idx-cal_event-parent_id', '{{%cal_event}}', 'parent_id');
-		$this->createIndex('idx-cal_event-parent_id', '{{%cal_event}}', 'parent_id');
 		$this->createIndex('idx-cal_event-visible', '{{%cal_event}}', 'visible');
 		$this->createIndex('idx-cal_event-event_valid', '{{%cal_event}}', 'event_valid');
 		$this->createIndex('idx-cal_event-terms', '{{%cal_event}}', 'terms');
 		$this->createIndex('idx-cal_event-start_date', '{{%cal_event}}', 'start_date');
 		$this->createIndex('idx-cal_event-end_date', '{{%cal_event}}', 'end_date');
+		
+		$this->addForeignKey('fk-cal_event-parent_id',
+			'{{%cal_event}}', 'parent_id',
+			'{{%cal_event}}', 'id',
+			'CASCADE'
+		);
 		
 		$this->addForeignKey('fk-cal_event-category_id',
 			'{{%cal_event}}', 'category_id',
@@ -165,17 +170,11 @@ class m180504_162105_calendar extends Migration
 			'CASCADE'
 		);
 
-		$this->addForeignKey('fk-cal_event-parent_id',
-			'{{%cal_event}}', 'parent_id',
-			'{{%cal_event}}', 'id',
-			'CASCADE'
-		);
-		
 		/*******************************************************************/
 		/*** cal_event_singledate                                        ***/
 		/*******************************************************************/
 
-		$this->createTable('{{%cal_event_singledate}}',
+		$this->createTable('{{%cal_event_singledate}}', // tt_calendar_event_singledates
 			[
 				'id'             => $this->primaryKey(),
 				'event_id'			 => $this->integer()->notNull(),
@@ -211,7 +210,7 @@ class m180504_162105_calendar extends Migration
 		/*** cal_event_offer_category                                    ***/
 		/*******************************************************************/
 
-		$this->createTable('{{%cal_event_offer_category}}',
+		$this->createTable('{{%cal_event_offer_category}}', // tt_calendar_event_offer_category
 			[
 				'id'             => $this->primaryKey(),
 				'name'           => $this->string()->notNull(),	
@@ -254,7 +253,7 @@ class m180504_162105_calendar extends Migration
 		/*** cal_event_offer                                             ***/
 		/*******************************************************************/
 
-		$this->createTable('{{%cal_event_offer}}',
+		$this->createTable('{{%cal_event_offer}}', // tt_calendar_event_offer
 			[
 				'id'             => $this->primaryKey(),
 				'name'           => $this->string()->notNull(),
@@ -296,7 +295,7 @@ class m180504_162105_calendar extends Migration
 		/*** cal_specialday_type                                         ***/
 		/*******************************************************************/
 
-		$this->createTable('{{%cal_specialday_type}}',
+		$this->createTable('{{%cal_specialday_type}}', // tt_calendar_specialdays_type
 			[
 				'id'             => $this->primaryKey(),
 				'name'           => $this->string()->notNull(),
@@ -316,7 +315,7 @@ class m180504_162105_calendar extends Migration
 		/*** cal_specialday                                              ***/
 		/*******************************************************************/
 
-		$this->createTable('{{%cal_specialday}}',
+		$this->createTable('{{%cal_specialday}}', // tt_calendar_specialdays
 			[
 				'id'             => $this->primaryKey(),
 				'name'           => $this->string()->notNull(),
@@ -341,6 +340,23 @@ class m180504_162105_calendar extends Migration
 			'{{%cal_specialday}}', 'type_id',
 			'{{%cal_specialday_type}}', 'id',
 			'CASCADE'
+		);
+		
+		/*******************************************************************/
+		/*** cal_terms                                                   ***/
+		/*******************************************************************/
+		
+		$this->createTable('{{%cal_terms}}', // tt_calendar_terms
+			[
+				'id'             => $this->primaryKey(),
+				'name'           => $this->string()->notNull(),	
+
+				'create_time'    => $this->datetime(),
+				'create_user_id' => $this->integer(),
+				'update_time'    => $this->datetime(),
+				'update_user_id' => $this->integer(),
+			],
+			'ENGINE=InnoDB'
 		);
 		
 		/*******************************************************************/

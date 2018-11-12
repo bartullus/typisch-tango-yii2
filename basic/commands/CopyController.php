@@ -51,14 +51,16 @@ class CopyController
 	{
 
 		$this->copyTable(
-			'tt_user_group', '\app\models\BaseUserGroup',
+			'tt_user_group', 
+			'\app\models\BaseUserGroup',
 			[
 				'id', 'name', 'description',
 			]
 		);
 
 		$this->copyTable(
-			'tt_user', '\app\models\BaseUser',
+			'tt_user', 
+			'\app\models\BaseUser',
 			[
 				'id', 'active', 'email', 
 				'username', 'password', 'last_login_time',
@@ -66,14 +68,16 @@ class CopyController
 		);
 
 		$this->copyTable(
-			'tt_menu', '\app\models\BaseMenu',
+			'tt_menu', 
+			'\app\models\BaseMenu',
 			[
 				'id', 'name', 'restricted', 'description',
 			]
 		);
 		
 		$this->copyTable(
-			'tt_menu_item', '\app\models\BaseMenuItem',
+			'tt_menu_item', 
+			'\app\models\BaseMenuItem',
 			[
 				'id', 'name', 'menu_id', 'parent_id',
 				'icon', 'description', 'website', 'params',
@@ -83,7 +87,8 @@ class CopyController
 		);
 	
 		$this->copyTable(
-			'tt_article_status', '\app\modules\blog\models\BlogArticleStatus',
+			'tt_article_status', 
+			'\app\modules\blog\models\BlogArticleStatus',
 			[
 				'id', 
 				'name', 
@@ -92,7 +97,8 @@ class CopyController
 		);
 		
 		$this->copyTable(
-			'tt_article_category', '\app\modules\blog\models\BlogArticleCategory',
+			'tt_article_category', 
+			'\app\modules\blog\models\BlogArticleCategory',
 			[
 				'id', 
 				'name', 
@@ -101,7 +107,8 @@ class CopyController
 		);
 		
 		$this->copyTable(
-			'tt_article_keyword', '\app\modules\blog\models\BlogArticleKeyword',
+			'tt_article_keyword', 
+			'\app\modules\blog\models\BlogArticleKeyword',
 			[
 				'id', 
 				'name', 
@@ -110,7 +117,8 @@ class CopyController
 		);
 		
 		$this->copyTable(
-			'tt_article', '\app\modules\blog\models\BlogArticle',
+			'tt_article', 
+			'\app\modules\blog\models\BlogArticle',
 			[
 				'id', 'pub_date', 'category_id', 'status_id',
 				'title', 'url', 'content', 'description',
@@ -118,14 +126,16 @@ class CopyController
 		);
 		
 		$this->copyTable(
-			'tt_article_keyword_rel', '\app\modules\blog\models\BlogArticleKeywordRel',
+			'tt_article_keyword_rel', 
+			'\app\modules\blog\models\BlogArticleKeywordRel',
 			[
 				'article_id', 'keyword_id',
 			]
 		);
 
 		$this->copyTable(
-			'tt_newsletter', '\app\modules\blog\models\BlogReceiver',
+			'tt_newsletter', 
+			'\app\modules\blog\models\BlogReceiver',
 			[
 				'id', 'name', 'prename', 'email',
 				'info', 'member', 'valid', 'birthdate',
@@ -133,7 +143,8 @@ class CopyController
 		);
 		
 		$this->copyTable(
-			'tt_newsletter_send', '\app\modules\blog\models\BlogReceiverArticle',
+			'tt_newsletter_send', 
+			'\app\modules\blog\models\BlogReceiverArticle',
 			[
 				'id', 
 				'newsletter_id' => 'receiver_id', 
@@ -144,21 +155,24 @@ class CopyController
 		);
 		
 		$this->copyTable(
-			'tt_newsletter_code', '\app\modules\blog\models\BlogReceiverCode',
+			'tt_newsletter_code', 
+			'\app\modules\blog\models\BlogReceiverCode',
 			[
 				'id', 'code', 'name', 'prename', 'email', 'verified', 'ip_addr',
 			]
 		);
 		
 		$this->copyTable(
-			'tt_newsletter_blacklist', '\app\modules\blog\models\BlogReceiverBlacklist',
+			'tt_newsletter_blacklist', 
+			'\app\modules\blog\models\BlogReceiverBlacklist',
 			[
 				'id', 'email', 'description',
 			]
 		);
 		
 		$this->copyTable(
-			'tt_map_state', '\app\modules\map\models\MapState',
+			'tt_map_state', 
+			'\app\modules\map\models\MapState',
 			[
 					'id', 'shortcut', 'name', 'url',
 					'latitude', 'longitude', 'mapZoomLevel',
@@ -166,7 +180,8 @@ class CopyController
 		);
 
 		$this->copyTable(
-			'tt_map_region', '\app\modules\map\models\MapRegion',
+			'tt_map_region', 
+			'\app\modules\map\models\MapRegion',
 			[
 					'id', 'state_id', 'shortcut', 'name', 'url',
 					'latitude', 'longitude', 'mapZoomLevel',
@@ -174,12 +189,121 @@ class CopyController
 		);
 
 		$this->copyTable(
-			'tt_map_city', '\app\modules\map\models\MapCity',
+			'tt_map_city', 
+			'\app\modules\map\models\MapCity',
 			[
 					'id', 'region_id', 'shortcut', 'name', 'url',
 					'latitude', 'longitude', 'mapZoomLevel',
 			]
 		);
+
+		$this->copyTable(
+			'tt_calendar_category', 
+			'\app\modules\cal\models\CalendarEventCategory',
+			[
+					'id', 'name', 'plural', 
+					'shortname', 'shema_type', 'description',
+					
+					'importance', 'is_class',
+					'can_be_parent', 'user_group_id',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_calendar_event_offer_category', 
+			'\app\modules\cal\models\CalendarEventOfferCategory',
+			[
+					'id', 'name', 'plural', 
+					'shortname', 'shema_type', 'description',
+					
+					'importance', 'is_class',
+					'can_be_parent', 'user_group_id',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_calendar_event_offer_discounted', 
+			'\app\modules\cal\models\CalendarEventOfferDiscounted',
+			[
+					'id', 'short', 'name', 
+					'description', 'foruser', 
+			]
+		);
+		
+		$this->copyTable(
+			'tt_calendar_specialdays_type', 
+			'\app\modules\cal\models\CalendarSpecialdayType',
+			[
+				'id', 'name', 'description',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_calendar_specialdays', 
+			'\app\modules\cal\models\CalendarSpecialday',
+			[
+				'id', 'name', 'free',
+				'type_id', 
+				'month', 'day', 'relative'
+			]
+		);
+				
+		$this->copyTable(
+			'tt_calendar_location', 
+			'\app\modules\cal\models\CalendarLocatoin',
+			[
+					'id', 'name', 'loc_name', 'url', 'description',
+					'location_valid', 'is_loc', 'is_org', 'person', 
+					'email', 'website', 'telephone',
+					'city_id', 'city', 'district',
+					'postcode', 'address', 
+					'colour', 
+					'latitude', 'longitude', 'mapZoomLevel',
+					'album_id',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_calendar_event', 
+			'\app\modules\cal\models\CalendarEvent',
+			[
+					'id', 'title', 'url', 
+					'description', 'event_website', 
+					'parent_id', 'category_id', 
+					'event_valid', 'visible',
+					'start_date', 'end_date', 
+					'start_time', 'end_time',
+					'terms', 'terms_details',
+					'price', 'max_number',
+					'location_id', 'location_city', 
+					'location_address', 'location_name',
+					'organisator_name', 'organisator_website', 
+					'organsiator_email', 'organisator_website', 
+					'album_id', 'submitter_id',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_calendar_event_singledate', 
+			'\app\modules\cal\models\CalendarEventSingledate',
+			[
+					'id',
+					'event_id',
+					'no', 'date', 'timestamp',
+					'start_time', 'end_time',
+					'active', 'manual',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_calendar_event_offer', 
+			'\app\modules\cal\models\CalendarEventOffer',
+			[
+					'id', 'name', 'amount', 
+					'event_id', 'category_id', 'discounted_id', 
+			]
+		);
+		
 	}
 		
 	private function copyTable(
