@@ -43,11 +43,23 @@ class CopyController
 		$db->open();		
 		return $db;
 	}
-	
+
 	/**
 	 * copies the menus
    */
 	protected function copyTables() 
+	{
+		//$this->copyBaseTable();
+		//$this->copyBlogTables();
+		//$this->copyMapTables();
+		$this->copyCalendarTables();
+
+	}
+	
+	/**
+	 * copies the base tables (user, menus)
+   */
+	protected function copyBaseTables() 
 	{
 
 		$this->copyTable(
@@ -85,7 +97,13 @@ class CopyController
 				'visible', 'change_freq', 'in_sitemap',
 			]
 		);
+	}
 	
+	/**
+	 * copies the base tables (menus)
+   */
+	protected function copyBlogTables() 
+	{
 		$this->copyTable(
 			'tt_article_status', 
 			'\app\modules\blog\models\BlogArticleStatus',
@@ -169,7 +187,13 @@ class CopyController
 				'id', 'email', 'description',
 			]
 		);
+	}
 		
+	/**
+	 * copies the base tables (menus)
+   */
+	protected function copyMapTables() 
+	{
 		$this->copyTable(
 			'tt_map_state', 
 			'\app\modules\map\models\MapState',
@@ -196,13 +220,19 @@ class CopyController
 					'latitude', 'longitude', 'mapZoomLevel',
 			]
 		);
-
+	}
+	
+	/**
+	 * copies the base tables (menus)
+   */
+	protected function copyCalendarTables() 
+	{
 		$this->copyTable(
 			'tt_calendar_category', 
 			'\app\modules\cal\models\CalendarEventCategory',
 			[
 					'id', 'name', 'plural', 
-					'shortname', 'shema_type', 'description',
+					'shortname', 'schema_type', 'description',
 					
 					'importance', 'is_class',
 					'can_be_parent', 'user_group_id',
@@ -213,16 +243,12 @@ class CopyController
 			'tt_calendar_event_offer_category', 
 			'\app\modules\cal\models\CalendarEventOfferCategory',
 			[
-					'id', 'name', 'plural', 
-					'shortname', 'shema_type', 'description',
-					
-					'importance', 'is_class',
-					'can_be_parent', 'user_group_id',
+					'id', 'name', 'description',
 			]
 		);
 		
 		$this->copyTable(
-			'tt_calendar_event_offer_discounted', 
+			'tt_booking_discounted', 
 			'\app\modules\cal\models\CalendarEventOfferDiscounted',
 			[
 					'id', 'short', 'name', 
@@ -302,8 +328,7 @@ class CopyController
 					'id', 'name', 'amount', 
 					'event_id', 'category_id', 'discounted_id', 
 			]
-		);
-		
+		);	
 	}
 		
 	private function copyTable(
@@ -318,12 +343,12 @@ class CopyController
 		$oldRecords = $command->queryAll();
 		$oldCnt = count($oldRecords);
 		echo "\tCopy: $oldCnt\r\n";
-		//echo print_r($oldMenus, true);
 		
 		$newClass = new \ReflectionClass($newClassName);
 		$deleteAllMethod = $newClass->getMethod('deleteAll');
 		$deleteAllMethod->invoke(null);		
 		
+		$cntRecs = 0;
 		foreach($oldRecords as $oldRec) {
 			
 			$newRec = $newClass->newInstance();
@@ -331,8 +356,13 @@ class CopyController
 			if (!$this->checkDuplicates($checkDuplicateFields, $newRec, $newClass)) {
 				continue;
 			}	
-			$newRecT->save(false);		
+			$newRecT->save(false);
+			
+			if ((++$cntRecs % 1000) == 0) {
+				echo "\t\tcnt: $cntRecs";
+			}
 		}
+		echo "\r\n";
 		
 		$findMethod = $newClass->getMethod('find');
 		$cnt = $findMethod->invoke(null)->count();
@@ -380,7 +410,7 @@ class CopyController
 		$findAllMethod = $newClass->getMethod('findAll');
 		$otherRecs = $findAllMethod->invoke($newRec, $findParams);
 		if (count($otherRecs) > 0) {
-			echo "WARNING other records found cnt: ".count($otherRecs)." $findParamsStr\r\n";
+			//echo "WARNING other records found cnt: ".count($otherRecs)." $findParamsStr\r\n";
 			return false;
 		}
 		return true;

@@ -369,6 +369,17 @@ class m180504_162105_calendar extends Migration
 	{
 		echo "revert m180504_162105_calendar\n";
 
+		$this->dropTable('{{%cal_terms}}');
+		$this->dropTable('{{%cal_specialday}}');
+		$this->dropTable('{{%cal_specialday_type}}');
+		$this->dropTable('{{%cal_event_offer}}');
+		$this->dropTable('{{%cal_event_offer_discounted}}');
+		$this->dropTable('{{%cal_event_offer_category}}');
+		$this->dropTable('{{%cal_event_singledate}}');
+		$this->dropTable('{{%cal_event}}');
+		$this->dropTable('{{%cal_location}}');
+		$this->dropTable('{{%cal_event_category}}');
+
 		echo "reverted m180504_162105_calendar\n";
 		return true;
 	}
