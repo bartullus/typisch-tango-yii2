@@ -129,8 +129,7 @@ class CopyController
 			'\app\modules\blog\models\BlogArticleKeyword',
 			[
 				'id', 
-				'name', 
-				//'description',
+				'name',
 			]
 		);
 		
@@ -276,7 +275,7 @@ class CopyController
 				
 		$this->copyTable(
 			'tt_calendar_location', 
-			'\app\modules\cal\models\CalendarLocatoin',
+			'\app\modules\cal\models\CalendarLocation',
 			[
 					'id', 'name', 'loc_name', 'url', 'description',
 					'location_valid', 'is_loc', 'is_org', 'person', 
@@ -288,11 +287,8 @@ class CopyController
 					'album_id',
 			]
 		);
-		
-		$this->copyTable(
-			'tt_calendar_event', 
-			'\app\modules\cal\models\CalendarEvent',
-			[
+
+		$calendarEventFields = [
 					'id', 'title', 'url', 
 					'description', 'event_website', 
 					'parent_id', 'category_id', 
@@ -301,16 +297,42 @@ class CopyController
 					'start_time', 'end_time',
 					'terms', 'terms_details',
 					'price', 'max_number',
-					'location_id', 'location_city', 
-					'location_address', 'location_name',
-					'organisator_name', 'organisator_website', 
-					'organsiator_email', 'organisator_website', 
-					'album_id', 'submitter_id',
-			]
+					
+					'location_id', 
+					'location_city', 
+					'location_address', 
+					'location_name',
+					
+					'organisator_id', 
+					'organisator_name', 
+					'organisator_website', 
+					'organisator_email', 
+					'organisator_telephone', 
+					
+					'album_id', 
+					'submitter_ip',
+		];
+
+		$this->copyTable(
+			'tt_calendar_event', 
+			'\app\modules\cal\models\CalendarEvent',
+			$calendarEventFields,
+			null,
+			"LEFT JOIN tt_calendar_category c ON c.id = tt_calendar_event.category_id WHERE c.can_be_parent = 1",
+			true // delete existing records	in new table
 		);
 		
 		$this->copyTable(
-			'tt_calendar_event_singledate', 
+			'tt_calendar_event', 
+			'\app\modules\cal\models\CalendarEvent',
+			$calendarEventFields,
+			null,
+			"LEFT JOIN tt_calendar_category c ON c.id = tt_calendar_event.category_id WHERE c.can_be_parent = 0",
+			false // do not delete existing records in new table
+		);
+		
+		$this->copyTable(
+			'tt_calendar_event_singledates', 
 			'\app\modules\cal\models\CalendarEventSingledate',
 			[
 					'id',
@@ -329,28 +351,51 @@ class CopyController
 					'event_id', 'category_id', 'discounted_id', 
 			]
 		);	
+
+		$this->copyTable(
+			'tt_calendar_terms', 
+			'\app\modules\cal\models\CalendarTerms',
+			[
+					'id', 'name',
+			]
+		);	
 	}
 		
 	private function copyTable(
 					$oldTableName, 
 					$newClassName, 
 					$fieldNames,
-					$checkDuplicateFields = null)
+					$checkDuplicateFields = null,
+					$addStmt = null,
+					$deleteOldRecs = true)
 	{
 		echo "Start Copy $oldTableName\r\n";
 		
-		$command = $this->db_old->createCommand("SELECT * FROM $oldTableName");
+		$sqlStmt = "SELECT $oldTableName.* FROM $oldTableName";
+		if (isset($addStmt)) {
+			$sqlStmt.= " ".$addStmt;
+		}
+		
+		$command = $this->db_old->createCommand($sqlStmt);
 		$oldRecords = $command->queryAll();
 		$oldCnt = count($oldRecords);
-		echo "\tCopy: $oldCnt\r\n";
+		echo "\tCopy: $oldCnt SQL [$sqlStmt]\r\n";
 		
 		$newClass = new \ReflectionClass($newClassName);
-		$deleteAllMethod = $newClass->getMethod('deleteAll');
-		$deleteAllMethod->invoke(null);		
+		if ($deleteOldRecs == true) {
+			echo "\tdelete existing records\r\n";
+			$deleteAllMethod = $newClass->getMethod('deleteAll');
+			$deleteAllMethod->invoke(null);
+		}
+
+		$findMethod = $newClass->getMethod('find');
+		$cntBefore = $findMethod->invoke(null)->count();
+		echo "\tin new table cnt=$cntBefore\r\n";
 		
 		$cntRecs = 0;
 		foreach($oldRecords as $oldRec) {
 			
+			//echo "id: ".$oldRec['id']."\r\n";
 			$newRec = $newClass->newInstance();
 			$newRecT = $this->copyFields($newRec, $oldRec, $fieldNames);
 			if (!$this->checkDuplicates($checkDuplicateFields, $newRec, $newClass)) {
@@ -358,15 +403,14 @@ class CopyController
 			}	
 			$newRecT->save(false);
 			
-			if ((++$cntRecs % 1000) == 0) {
-				echo "\t\tcnt: $cntRecs";
+			if ((++$cntRecs % 10) == 0) {
+				echo "\tcnt: $cntRecs\r";
 			}
 		}
 		echo "\r\n";
 		
-		$findMethod = $newClass->getMethod('find');
-		$cnt = $findMethod->invoke(null)->count();
-		echo "\tCopied: $cnt/$oldCnt\r\n";
+		$cntAfter = $findMethod->invoke(null)->count();
+		echo "\tCopied: $cntRecs of $oldCnt All: $cntAfter\r\n";
 		
 		echo "End Copy $oldTableName\r\n";
 	}

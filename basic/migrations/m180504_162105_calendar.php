@@ -125,7 +125,7 @@ class m180504_162105_calendar extends Migration
 				'organisator_telephone' => $this->string(),
 				
 				'album_id'       => $this->integer(),						
-				'submitter_id'   => $this->string(),
+				'submitter_ip'   => $this->string(),
 
 				'create_time'    => $this->datetime(),
 				'create_user_id' => $this->integer(),
@@ -212,7 +212,8 @@ class m180504_162105_calendar extends Migration
 
 		$this->createTable('{{%cal_event_offer_category}}', // tt_calendar_event_offer_category
 			[
-				'id'             => $this->primaryKey(),
+				//'id'             => $this->primaryKey(),
+				'id'             => $this->integer()->notNull(), // prevent auto_increment (so primaryKey cannot be used)
 				'name'           => $this->string()->notNull(),	
 				'description'    => $this->text(),
 
@@ -220,6 +221,7 @@ class m180504_162105_calendar extends Migration
 				'create_user_id' => $this->integer(),
 				'update_time'    => $this->datetime(),
 				'update_user_id' => $this->integer(),
+				"PRIMARY KEY (`id`)",
 			],
 			'ENGINE=InnoDB'
 		);
@@ -232,7 +234,8 @@ class m180504_162105_calendar extends Migration
 		
 		$this->createTable('{{%cal_event_offer_discounted}}', // tt_booking_discounted
 			[
-				'id'             => $this->primaryKey(),
+				//'id'             => $this->primaryKey(),
+				'id'             => $this->integer()->notNull(), // prevent auto_increment (so primaryKey cannot be used)
 				'short'          => $this->string(10)->notNull(),	
 				'name'           => $this->string()->notNull(),	
 				'description'    => $this->text(),
@@ -243,6 +246,7 @@ class m180504_162105_calendar extends Migration
 				'create_user_id' => $this->integer(),
 				'update_time'    => $this->datetime(),
 				'update_user_id' => $this->integer(),
+				"PRIMARY KEY (`id`)",
 			],
 			'ENGINE=InnoDB'
 		);

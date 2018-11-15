@@ -1,0 +1,63 @@
+
+---------------------------------------------------------------------------
+not existing organisator for event
+
+
+SELECT ce.id, ce.title, ce.organisator_id, ce.organisator_name 
+FROM `tt_calendar_event` ce 
+LEFT JOIN `tt_calendar_location` cl ON ce.organisator_id = cl.id 
+WHERE ce.organisator_id IS NOT NULL AND cl.name IS NULL 
+LIMIT 100 
+
+UPDATE `tt_calendar_event` 
+SET organisator_id = NULL 
+WHERE organisator_id = 28 
+
+---------------------------------------------------------------------------
+missing parent for event (reset parent_id)
+
+SELECT e.id, e.title, e.parent_id
+FROM tt_calendar_event e
+LEFT JOIN tt_calendar_event pe ON e.parent_id = pe.id
+WHERE e.parent_ID IS NOT NULL AND pe.title IS NULL
+
+UPDATE `tt_calendar_event` 
+SET parent_id = NULL 
+WHERE id = 2087 
+
+---------------------------------------------------------------------------
+Single dates without event
+
+SELECT d.*
+FROM tt_calendar_event_singledates d
+LEFT JOIN tt_calendar_event pe ON d.event_id = pe.id
+WHERE pe.title IS NULL
+
+DELETE d 
+FROM tt_calendar_event_singledates d
+LEFT JOIN tt_calendar_event pe ON d.event_id = pe.id
+WHERE pe.title IS NULL
+
+---------------------------------------------------------------------------
+Offer without event
+
+SELECT o.*
+FROM tt_calendar_event_offer o
+LEFT JOIN tt_calendar_event pe ON o.event_id = pe.id
+WHERE pe.title IS NULL
+
+DELETE o 
+FROM tt_calendar_event_offer o
+LEFT JOIN tt_calendar_event pe ON o.event_id = pe.id
+WHERE pe.title IS NULL
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
