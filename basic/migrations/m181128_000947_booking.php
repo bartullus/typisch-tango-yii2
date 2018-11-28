@@ -57,6 +57,12 @@ class m181128_000947_booking extends Migration
 		$this->createIndex('idx-booking_userbooking_item_type-short', '{{%booking_userbooking_item_type}}', 'short');
 		$this->createIndex('idx-booking_userbooking_item_type-name', '{{%booking_userbooking_item_type}}', 'name');
 
+		$this->addForeignKey('fk-booking_userbooking_item_type-offer_category_id',
+			'{{%booking_userbooking_item_type}}', 'offer_category_id',
+			'{{%cal_event_offer_category}}', 'id',
+			'CASCADE'
+		);
+		
 		/*******************************************************************/
 		/*** booking_bookable                                               ***/
 		/*******************************************************************/
@@ -98,9 +104,10 @@ class m181128_000947_booking extends Migration
 			[
 				'id'             => $this->primaryKey(),
 				'bookable_id'    => $this->integer()->notNull(),	
+				'discounted_id'  => $this->integer()->notNull(),
+
 				'name'           => $this->string()->notNull(),	
 				'amount'         => $this->float()->notNull(),
-				'discounted_id'  => $this->integer()->notNull(),	
 				'default_booked' => $this->boolean()->notNull()->defaultValue(true),					
 				'description'    => $this->text(),
 
@@ -145,7 +152,7 @@ class m181128_000947_booking extends Migration
 		);
 
 		$this->addForeignKey('fk-booking_package_event_offer_rel-event_offer_id',
-			'{{%booking_package_event_offer_rel}}', 'package_id',
+			'{{%booking_package_event_offer_rel}}', 'event_offer_id',
 			'{{%cal_event_offer}}', 'id',
 			'CASCADE'
 		);
@@ -208,8 +215,129 @@ class m181128_000947_booking extends Migration
 			'{{%cal_event_offer_discounted}}', 'id',
 			'CASCADE'
 		);
-		
 
+		/*******************************************************************/
+		/*** booking_userbooking_package                                         ***/
+		/*******************************************************************/
+		
+		$this->createTable('{{%booking_userbooking_package}}', // tt_booking_package_userbooking
+			[
+				'id'             => $this->primaryKey(),
+				'userbooking_id' => $this->integer()->notNull(),	
+				'package_id'     => $this->integer()->notNull(),	
+				'discounted_id'  => $this->integer()->notNull(),	
+		
+				'booking_date'   => $this->date()->notNull(),
+				'price'          => $this->decimal(10,2)->notNull()->defaultValue(0.00),
+
+				'create_time'    => $this->datetime(),
+				'create_user_id' => $this->integer(),
+				'update_time'    => $this->datetime(),
+				'update_user_id' => $this->integer(),
+			],
+			'ENGINE=InnoDB'
+		);
+
+		$this->addForeignKey('fk-booking_userbooking_package-userbooking_id',
+			'{{%booking_userbooking_package}}', 'userbooking_id',
+			'{{%booking_userbooking}}', 'id',
+			'CASCADE'
+		);
+		
+		$this->addForeignKey('fk-booking_userbooking_package-package_id',
+			'{{%booking_userbooking_package}}', 'package_id',
+			'{{%booking_package}}', 'id',
+			'CASCADE'
+		);
+		
+		$this->addForeignKey('fk-booking_userbooking_package-discounted_id',
+			'{{%booking_userbooking_package}}', 'discounted_id',
+			'{{%cal_event_offer_discounted}}', 'id',
+			'CASCADE'
+		);
+		
+		/*******************************************************************/
+		/*** booking_userbooking_item                                    ***/
+		/*******************************************************************/
+		
+		$this->createTable('{{%booking_userbooking_item}}', // tt_booking_userbooking_item
+			[
+				'id'             => $this->primaryKey(),
+				'userbooking_id' => $this->integer()->notNull(),	
+				'event_id'       => $this->integer(),	
+				'offer_id'       => $this->integer()->notNull()->defaultValue(3),	
+				'type_id'        => $this->integer()->notNull()->defaultValue(3),	
+				'discounted_id'  => $this->integer()->notNull(),	
+
+				'booking_date'   => $this->date()->notNull(),
+				'price'          => $this->decimal(10,2)->notNull()->defaultValue(0.00),
+				'acknowledged'   => $this->boolean()->notNull()->defaultValue(false),
+
+				'create_time'    => $this->datetime(),
+				'create_user_id' => $this->integer(),
+				'update_time'    => $this->datetime(),
+				'update_user_id' => $this->integer(),
+			],
+			'ENGINE=InnoDB'
+		);
+
+		$this->addForeignKey('fk-booking_userbooking_item-userbooking_id',
+			'{{%booking_userbooking_item}}', 'userbooking_id',
+			'{{%booking_userbooking}}', 'id',
+			'CASCADE'
+		);
+		
+		$this->addForeignKey('fk-booking_userbooking_item-event_id',
+			'{{%booking_userbooking_item}}', 'event_id',
+			'{{%cal_event}}', 'id',
+			'CASCADE'
+		);
+
+		$this->addForeignKey('fk-booking_userbooking_item-offer_id',
+			'{{%booking_userbooking_item}}', 'offer_id',
+			'{{%cal_event_offer}}', 'id',
+			'CASCADE'
+		);
+
+		$this->addForeignKey('fk-booking_userbooking_item-type_id',
+			'{{%booking_userbooking_item}}', 'type_id',
+			'{{%booking_userbooking_item_type}}', 'id',
+			'CASCADE'
+		);
+
+		$this->addForeignKey('fk-booking_userbooking_item-discounted_id',
+			'{{%booking_userbooking_item}}', 'discounted_id',
+			'{{%cal_event_offer_discounted}}', 'id',
+			'CASCADE'
+		);
+		
+		/*******************************************************************/
+		/*** booking_userbooking_payment                                 ***/
+		/*******************************************************************/
+		
+		$this->createTable('{{%booking_userbooking_payment}}', // tt_booking_payment
+			[
+				'id'             => $this->primaryKey(),
+				'userbooking_id' => $this->integer()->notNull(),	
+
+				'booking_date'   => $this->date()->notNull(),
+				'amount'         => $this->decimal(10,2)->notNull()->defaultValue(0.00),
+				'remark'         => $this->text(),
+
+				'create_time'    => $this->datetime(),
+				'create_user_id' => $this->integer(),
+				'update_time'    => $this->datetime(),
+				'update_user_id' => $this->integer(),
+			],
+			'ENGINE=InnoDB'
+		);
+
+		$this->addForeignKey('fk-booking_userbooking_payment-userbooking_id',
+			'{{%booking_userbooking_payment}}', 'userbooking_id',
+			'{{%booking_userbooking}}', 'id',
+			'CASCADE'
+		);
+		
 		echo "migrated m181128_000947_booking\n";
 		return true;
 	}
@@ -218,6 +346,9 @@ class m181128_000947_booking extends Migration
 	{
 		echo "revert m181128_000947_booking\n";
 
+		$this->dropTable('{{%booking_userbooking_payment}}');
+		$this->dropTable('{{%booking_userbooking_item}}');
+		$this->dropTable('{{%booking_userbooking_package}}');
 		$this->dropTable('{{%booking_userbooking}}');
 		$this->dropTable('{{%booking_package_event_offer_rel}}');
 		$this->dropTable('{{%booking_package}}');
