@@ -1,8 +1,8 @@
 <?php
-namespace app\modules\cal;
+namespace app\modules\gallery;
 /**
- * Module: Calendar
- * contains events and locations
+ * Module: Gallery
+ * contains pictures and albumss
  *  
  *
  * @author herbert

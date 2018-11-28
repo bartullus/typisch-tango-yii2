@@ -24,10 +24,62 @@ class CopyController
    */
   public function actionIndex()
 	{
+		$this->_doCopy('copyTables');
+  }
+	
+	/**
+	 * copies base objects
+   */
+  public function actionBase()
+	{
+		$this->_doCopy('copyBaseTables');
+  }
+
+	/**
+	 * copies base objects
+   */
+  public function actionBlog()
+	{
+		$this->_doCopy('copyBlogTables');
+  }
+
+	/**
+	 * copies map objects
+   */
+  public function actionMap()
+	{
+		$this->_doCopy('copyMapTables');
+  }
+
+	/**
+	 * copies gallery objects
+   */
+  public function actionGallery()
+	{
+		$this->_doCopy('copyGalleryTables');
+  }
+
+	/**
+	 * copies calendar objects
+   */
+  public function actionCalendar()
+	{
+		$this->_doCopy('copyCalendarTables');
+  }
+
+	/**
+	 * copies all objects
+   */
+  private function _doCopy($methodName)
+	{
 		$this->db_old = $this->openConnection();
-		$this->copyTables();
+		$reflector = new \ReflectionObject($this);
+		$method = $reflector->getMethod($methodName);
+		$method->setAccessible(true);
+		$method->invoke($this);
 		$this->db_old->close ();
   }
+	
 	
 	/**
 	 * open connection to old database
@@ -49,11 +101,11 @@ class CopyController
    */
 	protected function copyTables() 
 	{
-		//$this->copyBaseTable();
-		//$this->copyBlogTables();
-		//$this->copyMapTables();
+		$this->copyBaseTable();
+		$this->copyBlogTables();
+		$this->copyMapTables();
+		$this->copyGalleryTables();
 		$this->copyCalendarTables();
-
 	}
 	
 	/**
@@ -220,7 +272,48 @@ class CopyController
 			]
 		);
 	}
+
+	/**
+	 * copies the base tables (menus)
+   */
+	protected function copyGalleryTables() 
+	{
+		$this->copyTable(
+			'tt_gallery_album_category', 
+			'\app\modules\gallery\models\GalleryAlbumCategory',
+			[
+					'id', 'name', 'description',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_gallery_album', 
+			'\app\modules\gallery\models\GalleryAlbum',
+			[
+					'id', 'name', 'description',
+					'url', 'public', 'in_gallery',
+					'album_category_id', 'thumbnail_id',
+			]
+		);
 	
+		$this->copyTable(
+			'tt_gallery_picture', 
+			'\app\modules\gallery\models\GalleryPicture',
+			[
+					'id', 'name', 'description',
+					'album_id', 'format', 'url',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_gallery_picture_views', 
+			'\app\modules\gallery\models\GalleryPictureViews',
+			[
+					'picture_id', 'views',
+			]
+		);
+	}
+
 	/**
 	 * copies the base tables (menus)
    */
@@ -230,7 +323,7 @@ class CopyController
 			'tt_calendar_category', 
 			'\app\modules\cal\models\CalendarEventCategory',
 			[
-					'id', 'name', 'plural', 
+					'id', 'name', 'plural',
 					'shortname', 'schema_type', 'description',
 					
 					'importance', 'is_class',
@@ -239,7 +332,7 @@ class CopyController
 		);
 		
 		$this->copyTable(
-			'tt_calendar_event_offer_category', 
+			'tt_calendar_event_offer_category',
 			'\app\modules\cal\models\CalendarEventOfferCategory',
 			[
 					'id', 'name', 'description',
@@ -250,8 +343,8 @@ class CopyController
 			'tt_booking_discounted', 
 			'\app\modules\cal\models\CalendarEventOfferDiscounted',
 			[
-					'id', 'short', 'name', 
-					'description', 'foruser', 
+					'id', 'short', 'name',
+					'description', 'foruser',
 			]
 		);
 		
@@ -268,8 +361,8 @@ class CopyController
 			'\app\modules\cal\models\CalendarSpecialday',
 			[
 				'id', 'name', 'free',
-				'type_id', 
-				'month', 'day', 'relative'
+				'type_id',
+				'month', 'day', 'relative',
 			]
 		);
 				
@@ -278,11 +371,11 @@ class CopyController
 			'\app\modules\cal\models\CalendarLocation',
 			[
 					'id', 'name', 'loc_name', 'url', 'description',
-					'location_valid', 'is_loc', 'is_org', 'person', 
+					'location_valid', 'is_loc', 'is_org', 'person',
 					'email', 'website', 'telephone',
 					'city_id', 'city', 'district',
-					'postcode', 'address', 
-					'colour', 
+					'postcode', 'address',
+					'colour',
 					'latitude', 'longitude', 'mapZoomLevel',
 					'album_id',
 			]

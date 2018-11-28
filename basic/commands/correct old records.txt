@@ -19,7 +19,7 @@ missing parent for event (reset parent_id)
 SELECT e.id, e.title, e.parent_id
 FROM tt_calendar_event e
 LEFT JOIN tt_calendar_event pe ON e.parent_id = pe.id
-WHERE e.parent_ID IS NOT NULL AND pe.title IS NULL
+WHERE e.parent_id IS NOT NULL AND pe.title IS NULL
 
 UPDATE `tt_calendar_event` 
 SET parent_id = NULL 
@@ -52,7 +52,18 @@ LEFT JOIN tt_calendar_event pe ON o.event_id = pe.id
 WHERE pe.title IS NULL
 
 ---------------------------------------------------------------------------
+Reset album_id for non-existing albums
 
+SELECT e.id, e.title, e.album_id
+FROM tt_calendar_event e
+LEFT JOIN tt_gallery_album ga ON e.album_id = ga.id
+WHERE e.album_id IS NOT NULL AND ga.name IS NULL;
+
+ 
+
+
+
+---------------------------------------------------------------------------
 
 
 

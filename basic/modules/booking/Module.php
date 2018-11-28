@@ -1,8 +1,8 @@
 <?php
-namespace app\modules\cal;
+namespace app\modules\booking;
 /**
- * Module: Calendar
- * contains events and locations
+ * Module: Booking
+ * contains bookings for events
  *  
  *
  * @author herbert
