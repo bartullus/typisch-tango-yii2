@@ -92,7 +92,7 @@ class m180504_162105_calendar extends Migration
 		$this->createTable('{{%cal_event}}', // tt_calendar_event
 			[
 				'id'             => $this->primaryKey(),
-				'title'           => $this->string()->notNull(),	
+				'title'          => $this->string()->notNull(),	
 				'url'            => $this->string(),	
 				'description'    => $this->text(),
 				'event_website'  => $this->string(),	
@@ -226,6 +226,7 @@ class m180504_162105_calendar extends Migration
 			'ENGINE=InnoDB'
 		);
 
+		$this->createIndex('idx-cal_event_offer_category-id', '{{%cal_event_offer_category}}', 'id');
 		$this->createIndex('idx-cal_event_offer_category-name', '{{%cal_event_offer_category}}', 'name');
 		
 		/*******************************************************************/
