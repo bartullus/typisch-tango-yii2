@@ -59,14 +59,20 @@ FROM tt_calendar_event e
 LEFT JOIN tt_gallery_album ga ON e.album_id = ga.id
 WHERE e.album_id IS NOT NULL AND ga.name IS NULL;
 
- 
-
 
 
 ---------------------------------------------------------------------------
+Event Offer Relation to Packages
 
+SELECT peo.event_offer_id, eo.id, eo.name, peo.package_id, p.id, p.name
+FROM tt_booking_package_event_offer_rel peo
+LEFT JOIN tt_calendar_event_offer eo ON eo.id = peo.event_offer_id
+LEFT JOIN tt_booking_package p ON p.id = peo.package_id
+WHERE eo.id IS NULL OR p.id IS NULL;
 
-
+DELETE o 
+FROM tt_booking_package_event_offer_rel o
+WHERE o.event_offer_id = 3101 AND package_id = 10
 
 
 

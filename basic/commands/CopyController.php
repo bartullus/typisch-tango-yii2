@@ -68,6 +68,14 @@ class CopyController
   }
 
 	/**
+	 * copies calendar objects
+   */
+  public function actionBooking()
+	{
+		$this->_doCopy('copyBookingTables');
+  }
+
+	/**
 	 * copies all objects
    */
   private function _doCopy($methodName)
@@ -106,6 +114,7 @@ class CopyController
 		$this->copyMapTables();
 		$this->copyGalleryTables();
 		$this->copyCalendarTables();
+		$this->copyBookingTables();
 	}
 	
 	/**
@@ -453,7 +462,103 @@ class CopyController
 			]
 		);	
 	}
+
+	/**
+	 * copies the base tables (menus)
+   */
+	protected function copyBookingTables() 
+	{
+		$this->copyTable(
+			'tt_booking_userbooking_role',
+			'\app\modules\booking\models\BookingUserbookingRole',
+			[
+					'id', 'short', 'name', 'description',
+			]
+		);
 		
+		$this->copyTable(
+			'tt_booking_userbooking_item_type',
+			'\app\modules\booking\models\BookingUserbookingItemType',
+			[
+					'id', 'short', 'name', 'description',
+					'offer_category_id'
+			]
+		);
+
+		$this->copyTable(
+			'tt_booking_bookable',
+			'\app\modules\booking\models\BookingBookable',
+			[
+					'id', 'event_id',
+					'booking_start', 'booking_end',
+					'ask_role_always', 'payment_due_days',
+					'pricelevel_discount', 'percent_pricelevel_discount',
+					'date_earlybird', 'percent_earlybird_discount',
+					'remark',
+			]
+		);
+
+		$this->copyTable(
+			'tt_booking_package',
+			'\app\modules\booking\models\BookingPackage',
+			[
+					'id', 'bookable_id', 'discounted_id',
+					'name', 'amount', 'default_booked', 'description',
+			]
+		);
+
+		$this->copyTable(
+			'tt_booking_package_event_offer_rel',
+			'\app\modules\booking\models\BookingPackageEventOfferRel',
+			[
+					'package_id', 'event_offer_id',
+			]
+		);
+
+		$this->copyTable(
+			'tt_booking_userbooking',
+			'\app\modules\booking\models\BookingUserbooking',
+			[
+					'id', 'bookable_id', 'user_id', 'role_id', 'discounted_id',
+					'code', 'name', 'email',
+					'sum_price', 'discount_price',
+					'booking_date', 'payment_due_date',
+					'earlybird_price', 'special_rebate', 
+					'sum_final', 'sum_payment', 'difference',
+					'remark', 'confirmed', 'acknowledged',
+			]
+		);
+
+		$this->copyTable(
+			'tt_booking_package_userbooking',
+			'\app\modules\booking\models\BookingUserbookingPackage',
+			[
+					'id', 'userbooking_id', 'package_id', 'discounted_id',
+					'booking_date', 'price',
+			]
+		);
+
+		$this->copyTable(
+			'tt_booking_userbooking_item',
+			'\app\modules\booking\models\BookingUserbookingItem',
+			[
+					'id', 'userbooking_id', 'event_id', 
+					'offer_id', 'type_id', 'discounted_id',
+					'booking_date', 'price', 'acknowledged',
+			]
+		);
+
+		$this->copyTable(
+			'tt_booking_payment',
+			'\app\modules\booking\models\BookingUserbookingPayment',
+			[
+					'id', 'userbooking_id', 
+					'booking_date', 'amount', 'remark',
+			]
+		);
+
+	}
+	
 	private function copyTable(
 					$oldTableName, 
 					$newClassName, 

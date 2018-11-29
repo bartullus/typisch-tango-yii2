@@ -175,7 +175,7 @@ class m181128_000947_booking extends Migration
 				'sum_price'        => $this->decimal(10,2)->notNull()->defaultValue(0.00),
 				'discount_price'   => $this->decimal(10,2)->notNull()->defaultValue(0.00),
 				'booking_date'     => $this->date()->notNull(),
-				'booking_due_date' => $this->date()->notNull(),
+				'payment_due_date' => $this->date(),
 					
 				'earlybird_price'  => $this->decimal(10,2)->notNull()->defaultValue(0.00),
 				'special_rebate'   => $this->decimal(10,2)->notNull()->defaultValue(0.00),
