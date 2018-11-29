@@ -320,7 +320,7 @@ class m181128_000947_booking extends Migration
 				'id'             => $this->primaryKey(),
 				'userbooking_id' => $this->integer()->notNull(),	
 
-				'booking_date'   => $this->date()->notNull(),
+				'date'           => $this->date()->notNull(),
 				'amount'         => $this->decimal(10,2)->notNull()->defaultValue(0.00),
 				'remark'         => $this->text(),
 

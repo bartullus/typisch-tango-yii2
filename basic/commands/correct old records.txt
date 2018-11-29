@@ -59,7 +59,9 @@ FROM tt_calendar_event e
 LEFT JOIN tt_gallery_album ga ON e.album_id = ga.id
 WHERE e.album_id IS NOT NULL AND ga.name IS NULL;
 
-
+UPDATE `tt_calendar_event` 
+SET album_id = NULL 
+WHERE id = 2420 
 
 ---------------------------------------------------------------------------
 Event Offer Relation to Packages
@@ -74,7 +76,18 @@ DELETE o
 FROM tt_booking_package_event_offer_rel o
 WHERE o.event_offer_id = 3101 AND package_id = 10
 
+---------------------------------------------------------------------------
+check Userbooking-Package
 
+SELECT pu.id, pu.package_id, pu.userbooking_id, pu.discounted_id
+FROM tt_booking_package_userbooking pu
+LEFT JOIN tt_booking_package p ON p.id = pu.package_id
+LEFT JOIN tt_booking_userbooking u ON u.id = pu.userbooking_id
+LEFT JOIN tt_booking_discounted d ON d.id = pu.discounted_id
+WHERE p.id IS NULL OR u.id IS NULL OR d.id IS NULL
 
+DELETE pu 
+FROM tt_booking_package_userbooking pu
+WHERE id IN (10, 18, 19, 21, 23)
 
-
+---------------------------------------------------------------------------

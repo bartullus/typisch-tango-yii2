@@ -553,7 +553,7 @@ class CopyController
 			'\app\modules\booking\models\BookingUserbookingPayment',
 			[
 					'id', 'userbooking_id', 
-					'booking_date', 'amount', 'remark',
+					'date', 'amount', 'remark',
 			]
 		);
 
