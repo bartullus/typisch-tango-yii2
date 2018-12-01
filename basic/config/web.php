@@ -6,6 +6,7 @@ $db = require(__DIR__ . '/db.php');
 $config = [
 	'id' => 'basic',
 	'name' => 'Tango Argentino e.V. Erfurt',
+	'homeUrl' => array('/start'),
 	'basePath' => dirname(__DIR__),
 	'bootstrap' => ['log'],
 
@@ -21,10 +22,15 @@ $config = [
 		'db' => $db,
 		
 		'request' => [
-			// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-			'cookieValidationKey' => 'AQDeuxmBosIeh9iG4p-CW9-6gdk136r7',
+			'cookieValidationKey' => 'AQDeuxmBosIeh9iG5p-CW9-6gdk147r1',
     ],
-        
+     
+		'authManager' => [
+			'class' => 'yii\rbac\DbManager',
+			'db' => 'db',
+			'cache' => 'cache',
+		],
+			
 		'cache' => [
 			'class' => 'yii\caching\FileCache',
 		],

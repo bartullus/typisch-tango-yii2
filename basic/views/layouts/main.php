@@ -36,6 +36,7 @@ AppAsset::register($this);
     </div>
 </div>
 
+<!--
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
@@ -43,6 +44,9 @@ AppAsset::register($this);
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
+-->
+
+<?= app\extensions\footer\Footer::widget(); ?>
 
 <?php $this->endBody() ?>
 </body>
