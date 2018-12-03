@@ -19,7 +19,11 @@ $config = [
 		'authManager' => [
 			'class' => 'yii\rbac\DbManager',
 			'db' => 'db',
-			'cache' => 'cache',
+			//'cache' => 'cache',
+			'ruleTable' => "{{%admin_auth_rule}}",
+			'itemTable' => "{{%admin_auth_item}}",
+			'itemChildTable' => "{{%admin_auth_item_child}}",
+			'assignmentTable' => "{{%admin_auth_assignment}}",
 		],
 
 		'log' => [

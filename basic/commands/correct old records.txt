@@ -91,3 +91,26 @@ FROM tt_booking_package_userbooking pu
 WHERE id IN (10, 18, 19, 21, 23)
 
 ---------------------------------------------------------------------------
+check Auth Item Child
+
+SELECT pc.id, pc.parent, p.name, p.type, pc.child, c.name, c.type
+FROM tt_authitemchild pc
+LEFT JOIN tt_authitem p ON p.name = pc.parent
+LEFT JOIN tt_authitem c ON c.name = pc.child
+WHERE p.type IS NULL OR c.type IS NULL
+
+SELECT pc.id, pc.parent, pc.child
+FROM tt_authitemchild pc
+WHERE pc.child LIKE 'blog/articleCategory/%' OR pc.child LIKE 'contactCategory/%'
+
+DELETE pu 
+FROM tt_authitemchild pu
+WHERE id IN (1967, 1969, 1966, 1968, 2026, 2028, 2027)
+
+
+SELECT p.id, p.name, c.id, c.name
+FROM tt2_admin_auth_item_child pc
+LEFT JOIN tt2_admin_auth_item p ON p.name = pc.parent
+LEFT JOIN tt2_admin_auth_item c ON c.name = pc.child
+
+

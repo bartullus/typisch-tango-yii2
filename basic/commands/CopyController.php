@@ -76,6 +76,14 @@ class CopyController
   }
 
 	/**
+	 * copies calendar objects
+   */
+  public function actionAdminAuth()
+	{
+		$this->_doCopy('copyAdminAuthTables');
+  }
+
+	/**
 	 * copies all objects
    */
   private function _doCopy($methodName)
@@ -115,6 +123,7 @@ class CopyController
 		$this->copyGalleryTables();
 		$this->copyCalendarTables();
 		$this->copyBookingTables();
+		$this->copyAdminAuthTables();
 	}
 	
 	/**
@@ -464,7 +473,7 @@ class CopyController
 	}
 
 	/**
-	 * copies the base tables (menus)
+	 * copies the booking tables
    */
 	protected function copyBookingTables() 
 	{
@@ -554,6 +563,42 @@ class CopyController
 			[
 					'id', 'userbooking_id', 
 					'date', 'amount', 'remark',
+			]
+		);
+	}	
+	
+	/**
+	 * copies the authorisation tables
+   */
+	protected function copyAdminAuthTables() 
+	{
+		$this->copyTable(
+			'tt_authitem',
+			'\app\modules\admin\models\AdminAuthItem',
+			[
+					'name', 
+					'type', 
+					'description',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_authassignment',
+			'\app\modules\admin\models\AdminAuthAssignment',
+			[
+					'id', 
+					'itemname' => 'item_name', 
+					'userid' => 'user_id',
+			]
+		);
+		
+		$this->copyTable(
+			'tt_authitemchild',
+			'\app\modules\admin\models\AdminAuthItemChild',
+			[
+					'id', 
+					'parent', 
+					'child',
 			]
 		);
 

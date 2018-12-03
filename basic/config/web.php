@@ -6,7 +6,8 @@ $db = require(__DIR__ . '/db.php');
 $config = [
 	'id' => 'basic',
 	'name' => 'Tango Argentino e.V. Erfurt',
-	'homeUrl' => array('/start'),
+	'defaultRoute' => 'home/start',
+	'homeUrl' => array('home/start'),
 	'basePath' => dirname(__DIR__),
 	'bootstrap' => ['log'],
 
@@ -29,6 +30,10 @@ $config = [
 			'class' => 'yii\rbac\DbManager',
 			'db' => 'db',
 			'cache' => 'cache',
+			'ruleTable' => "{{%admin_auth_rule}}",
+			'itemTable' => "{{%admin_auth_item}}",
+			'itemChildTable' => "{{%admin_auth_item_child}}",
+			'assignmentTable' => "{{%admin_auth_assignment}}",
 		],
 			
 		'cache' => [
