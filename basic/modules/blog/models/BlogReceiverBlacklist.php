@@ -15,7 +15,8 @@ use Yii;
  * @property string $update_time
  * @property integer $update_user_id
  */
-class BlogReceiverBlacklist extends \app\models\TtActiveRecord
+class BlogReceiverBlacklist 
+	extends \app\models\TtActiveRecord
 {
     /**
      * @inheritdoc
@@ -44,14 +45,10 @@ class BlogReceiverBlacklist extends \app\models\TtActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+				return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('blog_receiver', 'ID'),
             'email' => Yii::t('blog_receiver', 'Email'),
             'description' => Yii::t('blog_receiver', 'Description'),
-            'create_time' => Yii::t('blog_receiver', 'Create Time'),
-            'create_user_id' => Yii::t('blog_receiver', 'Create User ID'),
-            'update_time' => Yii::t('blog_receiver', 'Update Time'),
-            'update_user_id' => Yii::t('blog_receiver', 'Update User ID'),
-        ];
+        ]);
     }
 }

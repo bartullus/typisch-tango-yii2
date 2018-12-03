@@ -17,7 +17,8 @@ use Yii;
  * @property BlogArticle $article
  * @property BlogReceiver $receiver
  */
-class BlogReceiverArticle extends \app\models\TtActiveRecord
+class BlogReceiverArticle 
+	extends \app\models\TtActiveRecord
 {
     /**
      * @inheritdoc
@@ -47,14 +48,12 @@ class BlogReceiverArticle extends \app\models\TtActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+				return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('blog_receiver', 'ID'),
             'receiver_id' => Yii::t('blog_receiver', 'Receiver ID'),
             'article_id' => Yii::t('blog_receiver', 'Article ID'),
             'result' => Yii::t('blog_receiver', 'Result'),
-            'create_time' => Yii::t('blog_receiver', 'Create Time'),
-            'create_user_id' => Yii::t('blog_receiver', 'Create User ID'),
-        ];
+        ]);
     }
 
     /**

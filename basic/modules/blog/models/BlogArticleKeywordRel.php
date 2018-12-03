@@ -13,7 +13,8 @@ use Yii;
  * @property BlogArticle $article
  * @property BlogArticleKeyword $keyword
  */
-class BlogArticleKeywordRel extends \app\models\TtActiveRecord
+class BlogArticleKeywordRel 
+	extends \app\models\TtActiveRecord
 {
     /**
      * @inheritdoc

@@ -29,8 +29,12 @@ class m181128_000947_booking extends Migration
 			'ENGINE=InnoDB'
 		);
 		
-		$this->createIndex('idx-booking_userbooking_role-short', '{{%booking_userbooking_role}}', 'short');
-		$this->createIndex('idx-booking_userbooking_role-name', '{{%booking_userbooking_role}}', 'name');
+		$this->createIndex('idx-booking_userbooking_role-short', 
+						'{{%booking_userbooking_role}}', 
+						'short');
+		$this->createIndex('idx-booking_userbooking_role-name', 
+						'{{%booking_userbooking_role}}', 
+						'name');
 
 		/*******************************************************************/
 		/*** booking_userbooking_item_type                               ***/

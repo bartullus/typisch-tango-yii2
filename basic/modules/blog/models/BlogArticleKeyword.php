@@ -16,7 +16,8 @@ use Yii;
  *
  * @property BlogArticleKeywordRel[] $blogArticleKeywordRels
  */
-class BlogArticleKeyword extends \app\models\TtActiveRecord
+class BlogArticleKeyword 
+	extends \app\models\TtActiveRecord
 {
     /**
      * @inheritdoc
@@ -45,14 +46,10 @@ class BlogArticleKeyword extends \app\models\TtActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+				return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('blog_article_keyword', 'ID'),
             'name' => Yii::t('blog_article_keyword', 'Name'),
-            'create_time' => Yii::t('blog_article_keyword', 'Create Time'),
-            'create_user_id' => Yii::t('blog_article_keyword', 'Create User ID'),
-            'update_time' => Yii::t('blog_article_keyword', 'Update Time'),
-            'update_user_id' => Yii::t('blog_article_keyword', 'Update User ID'),
-        ];
+        ]);
     }
 
     /**

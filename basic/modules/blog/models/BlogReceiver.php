@@ -52,7 +52,7 @@ class BlogReceiver extends \app\models\TtActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+				return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('blog_receiver', 'ID'),
             'name' => Yii::t('blog_receiver', 'Name'),
             'prename' => Yii::t('blog_receiver', 'Prename'),
@@ -61,11 +61,7 @@ class BlogReceiver extends \app\models\TtActiveRecord
             'member' => Yii::t('blog_receiver', 'Member'),
             'valid' => Yii::t('blog_receiver', 'Valid'),
             'birthdate' => Yii::t('blog_receiver', 'Birthdate'),
-            'create_time' => Yii::t('blog_receiver', 'Create Time'),
-            'create_user_id' => Yii::t('blog_receiver', 'Create User ID'),
-            'update_time' => Yii::t('blog_receiver', 'Update Time'),
-            'update_user_id' => Yii::t('blog_receiver', 'Update User ID'),
-        ];
+        ]);
     }
 
     /**
