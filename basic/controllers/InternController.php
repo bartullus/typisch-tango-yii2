@@ -59,4 +59,19 @@ class InternController
 		return $this->render('index');
 	}
 	
+	function getRights() {
+
+		/*
+		$right_list = array();
+		$user_id = Yii::app()->user->getId();
+		$user = User::model()->findByPk($user_id);
+		foreach($user->Rights as $right) {
+			$right_list[] = $right->itemname;
+		}
+		$rights = implode(', ', $right_list);
+		return $rights;
+		 */
+	}
+
+
 }

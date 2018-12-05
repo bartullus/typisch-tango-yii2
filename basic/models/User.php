@@ -2,13 +2,16 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+class User 
+	extends \yii\base\Object 
+	implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
     public $password;
     public $authKey;
     public $accessToken;
+		public $last_login_time;
 
     private static $users = [
         '100' => [
@@ -101,4 +104,9 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
         return $this->password === $password;
     }
+		
+		public function getUsername() 
+		{
+			return $this->username;
+		}
 }

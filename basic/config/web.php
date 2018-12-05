@@ -41,6 +41,7 @@ $config = [
 		],
     
 		'user' => [
+			'class' => 'app\extensions\user\User', // extend \yii\web\User component
 			'identityClass' => 'app\models\User',
 			'enableAutoLogin' => true,
     ],
