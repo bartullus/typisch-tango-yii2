@@ -42,7 +42,8 @@ $config = [
     
 		'user' => [
 			'class' => 'app\extensions\user\User', // extend \yii\web\User component
-			'identityClass' => 'app\models\User',
+			//'identityClass' => 'app\models\User',
+			'identityClass' => 'app\models\BaseUser',
 			'enableAutoLogin' => true,
     ],
     
@@ -63,7 +64,26 @@ $config = [
 			'targets' => [
 				[
 					'class' => 'yii\log\FileTarget',
-					'levels' => ['error', 'warning'],
+					'levels' => ['error'],
+					'logFile' => '@runtime/logs/errors.log',
+				],
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['warning'],
+					'logFile' => '@runtime/logs/warnings.log',
+				],
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['info'],
+					'logFile' => '@runtime/logs/infos.log',
+        ],
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['trace'],
+					'logFile' => '@runtime/logs/trace.log',
+					'maxFileSize' => 10240,
+					'maxLogFiles' => 5,
+					'rotateByCopy' => true,
 				],
 			],
 		],

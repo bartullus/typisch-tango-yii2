@@ -2,7 +2,10 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
+$user = Yii::$app->user;
+				
 $this->title = 'Interner Bereich';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -12,10 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <?=	app\extensions\ttwidget\FlashDisplay::widget(); ?>
 
 <p id="user">
-Angemeldet: <b><?php echo Yii::$app->user->getUsername(); ?></b>
-&nbsp;(<?php echo Yii::$app->user->getId(); ?>)
-&nbsp;Letzter Login: <?php echo strftime('%d.%m.%Y %H:%M:%S', Yii::$app->user->getLastLoginTime()); ?>
-&nbsp;Rechte: <?php echo $this->context->getRights(); ?>
+Angemeldet: <b><?php echo $user->getUsername(); ?></b>
+&nbsp;(<?php echo $user->getId(); ?>)
+&nbsp;Letzter Login: <?php echo $user->getLastLoginTimeFormat(); ?>
+&nbsp;Rechte: <?php echo $rights; ?>
+</p>
+
+<p id="logout">
+	<?= Html::a('Logout', Url::toRoute('/intern/logout')); ?>
 </p>
 
 <code><?= __FILE__ ?></code>

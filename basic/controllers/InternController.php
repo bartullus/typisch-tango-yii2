@@ -1,14 +1,16 @@
 <?php
 namespace app\controllers;
+
+use Yii;
+use yii\helpers\Url;
+use app\extensions\ttcontroller\TtController;
+use app\models\LoginForm;
+
 /**
  * Description of InternController
  *
  * @author herbert
  */
-
-use Yii;
-use app\extensions\ttcontroller\TtController;
-use app\models\LoginForm;
 
 class InternController 
 	extends TtController
@@ -29,12 +31,19 @@ class InternController
 		$model = new LoginForm();
 		if ($model->load(Yii::$app->request->post()) && $model->login()) 
 		{
-			return $this->goBack();
+			//return $this->goBack();
+			return $this->goIndex();
 		}
         
 		return $this->render('login', [
 			'model' => $model,
     ]);
+	}
+
+	public function goIndex()
+	{
+		$route = Url::toRoute('/intern/index');
+		return Yii::$app->getResponse()->redirect($route);
 	}
 
 	/**
@@ -56,22 +65,9 @@ class InternController
 	 */
 	public function actionIndex()
 	{
-		return $this->render('index');
+		return $this->render('index', [
+				'rights' => Yii::$app->user->getRights(),
+		]);
 	}
 	
-	function getRights() {
-
-		/*
-		$right_list = array();
-		$user_id = Yii::app()->user->getId();
-		$user = User::model()->findByPk($user_id);
-		foreach($user->Rights as $right) {
-			$right_list[] = $right->itemname;
-		}
-		$rights = implode(', ', $right_list);
-		return $rights;
-		 */
-	}
-
-
 }

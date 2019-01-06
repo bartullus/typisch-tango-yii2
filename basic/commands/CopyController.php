@@ -601,7 +601,6 @@ class CopyController
 					'child',
 			]
 		);
-
 	}
 	
 	private function copyTable(

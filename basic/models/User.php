@@ -2,6 +2,13 @@
 
 namespace app\models;
 
+use Yii;
+
+/**
+ * User class without database
+ *
+ */
+
 class User 
 	extends \yii\base\Object 
 	implements \yii\web\IdentityInterface
@@ -61,12 +68,15 @@ class User
      */
     public static function findByUsername($username)
     {
+				Yii::info('+ User::findByUsername() username: '.$username);
         foreach (self::$users as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
+								Yii::info('- User::findByUsername() user: '.$user->id);
                 return new static($user);
             }
         }
 
+				Yii::info('- User::findByUsername() NOT found ');
         return null;
     }
 

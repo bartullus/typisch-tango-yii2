@@ -17,42 +17,38 @@ use Yii;
  */
 class BaseUserGroup extends \app\models\TtActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%base_user_group}}';
-    }
+	/**
+   * @inheritdoc
+   */
+	public static function tableName()
+	{
+		return '{{%base_user_group}}';
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['name', 'create_time'], 'required'],
-            [['description'], 'string'],
-            [['create_time', 'update_time'], 'safe'],
-            [['create_user_id', 'update_user_id'], 'integer'],
-            [['name'], 'string', 'max' => 255],
-            [['name'], 'unique'],
-        ];
-    }
+	/**
+   * @inheritdoc
+   */
+	public function rules()
+	{
+		return [
+			[['name', 'create_time'], 'required'],
+			[['description'], 'string'],
+			[['create_time', 'update_time'], 'safe'],
+			[['create_user_id', 'update_user_id'], 'integer'],
+			[['name'], 'string', 'max' => 255],
+			[['name'], 'unique'],
+		];
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('menu', 'ID'),
-            'name' => Yii::t('menu', 'Name'),
-            'description' => Yii::t('menu', 'Description'),
-            'create_time' => Yii::t('menu', 'Create Time'),
-            'create_user_id' => Yii::t('menu', 'Create User ID'),
-            'update_time' => Yii::t('menu', 'Update Time'),
-            'update_user_id' => Yii::t('menu', 'Update User ID'),
-        ];
-    }
+	/**
+   * @inheritdoc
+   */
+	public function attributeLabels()
+	{
+		return array_merge(parent::attributeLabels(), [
+			'id' => Yii::t('user_group', 'ID'),
+			'name' => Yii::t('user_group', 'Name'),
+			'description' => Yii::t('user_group', 'Description'),
+		]);
+	}
 }
