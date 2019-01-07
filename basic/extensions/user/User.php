@@ -14,7 +14,11 @@ class User
 {
 	public function getUsername()
 	{
-		return Yii::$app->user->identity->username;
+		$identity = Yii::$app->user->identity;
+		if (!isset($identity)) {
+			return "";
+		}
+		return $identity->username;
 	}
 
 	/*public function getName()
@@ -24,7 +28,11 @@ class User
 
 	public function getLastLoginTime()
 	{
-		return Yii::$app->user->identity->last_login_time;
+		$identity = Yii::$app->user->identity;
+		if (!isset($identity)) {
+			return "";
+		}
+		return $identity->last_login_time;
 	}
 
 	public function getLastLoginTimeFormat()
@@ -42,6 +50,9 @@ class User
 
 		Yii::info('+ User::getRights()');
 		$identity = Yii::$app->user->identity;
+		if (!isset($identity)) {
+			return "";
+		}
 		
 		$rightsList = array();
 		$rights = $identity->getRights()->all();
@@ -54,4 +65,9 @@ class User
 		return $rightsStr;		
 	}
 
+	function checkAccess($operation, $params=array(), $allowCaching=true)
+	{
+		// TODO: check if user has access to this route
+		return true;
+	}
 }

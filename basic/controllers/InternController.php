@@ -15,6 +15,7 @@ use app\models\LoginForm;
 class InternController 
 	extends TtController
 {
+	public $layout='admin';
 	
 	/**
 	 * Login action.

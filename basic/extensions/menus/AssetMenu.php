@@ -15,6 +15,7 @@ class AssetMenu
 	public $css = [ 
 		'css/mainmenu.css',
 		'css/usermenu.css',
+		'css/adminmenu.css',
 	];
  
 }

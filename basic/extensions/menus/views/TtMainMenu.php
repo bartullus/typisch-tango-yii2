@@ -8,7 +8,7 @@ NavBar::begin([
 	'brandUrl' => Yii::$app->homeUrl,
   'options' => [
 		'id' => 'mainmenu',
-		'class' => 'navbar-inverse navbar-fixed-top',
+		'class' => 'navbar navbar-inverse navbar-fixed-top',
   ],
 ]);
 echo Nav::widget([

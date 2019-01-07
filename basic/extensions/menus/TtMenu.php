@@ -1,15 +1,15 @@
 <?php
 namespace app\extensions\menus;
 
+use Yii;
+use yii\helpers\Html;
+
 /**
  * Description of TtMenu
  * base menu
  *
  * @author Admin
  */
-
-use Yii;
-use yii\helpers\Html;
 
 class TtMenu 
 	extends \app\extensions\ttwidget\TtWidget

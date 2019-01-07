@@ -1,0 +1,106 @@
+html,
+body {
+	height: 100%;
+	/* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -30px;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+#wrap > .container {
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
+/* set colors of links */
+
+a {
+	color: #8B0000;
+}
+
+a:hover {
+	color: #DD0000;
+	text-decoration: underline;
+}
+
+#push {
+	height:50px;
+}
+
+#systemhint {
+	color: yellow;
+	background: darkred;
+	text-align: center;
+	font-weight: bold;
+	margin: 5px;
+}
+
+#footer {
+	background: rgb(245,245,245);
+}
+
+/* slideshow */
+
+.carousel-caption {
+	background-color: rgba(0,0,0,0.7);
+}
+
+.carousel-caption a {
+	color:red;
+	text-shadow: 0 2px 3px rgba(0,0,0,.8);
+}
+
+.carousel-caption a:hover {
+	color:rgb(255,96,96);
+}
+
+.table > div > div {
+	border-top: 1px solid rgb(221, 221, 221);
+}
+
+/* correct bootstrap an CK-Editor influence */
+input.cke_dialog_ui_input_text {
+	height: 23px;
+}
+
+ol,ul,dl {
+	padding: 0px;
+}
+
+/* display smaller headlines on smartphones */
+h1 {
+	font-size:30px;
+}
+
+h2 {
+	font-size:24px;
+}
+
+/* colors by css classes */
+.darkred {
+	color: darkred;
+}
+
+.darkgreen {
+	color: darkgreen;
+}
+
+/* apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+	
+	h1 { 
+		font-size:20px;
+	}
+
+	h2 { 
+		font-size:18px;
+	}
+}
+

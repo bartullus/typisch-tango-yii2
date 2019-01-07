@@ -21,6 +21,26 @@ Angemeldet: <b><?php echo $user->getUsername(); ?></b>
 &nbsp;Rechte: <?php echo $rights; ?>
 </p>
 
+<?php 
+
+echo app\extensions\buttons\LinkButton::widget([
+		'name'    => 'createEvent', 
+		'caption' => 'Neue Veranstaltung', 
+		'title'   => 'Einen neuer Kalendereintrag hinzufügen', 
+		'target'  => ['/cal/calendar/create'],
+		'icon'    => 'ui-icon-plus',
+]); 
+
+echo app\extensions\buttons\LinkButton::widget([
+		'name'    => 'locations', 
+		'caption' => 'Veranstaltungen', 
+		'title'   => 'Alle akuellen und zukünftigen Ereignisse aufgelistet', 
+		'target'  => array('/cal/calendar/userIndex'),
+		'icon'    => 'ui-icon-list',
+]);
+
+?>
+
 <p id="logout">
 	<?= Html::a('Logout', Url::toRoute('/intern/logout')); ?>
 </p>
