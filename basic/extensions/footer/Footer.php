@@ -1,13 +1,14 @@
 <?php
 namespace app\extensions\footer;
+
+use Yii;
+use yii\helpers\Html;
+
 /**
  * Description of Footer
  *
  * @author herbert
  */
-
-use Yii;
-use yii\helpers\Html;
 
 class Footer
 	extends \app\extensions\ttwidget\TtWidget

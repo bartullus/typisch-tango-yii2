@@ -29,6 +29,7 @@ class InternController
 			return $this->goHome();
 		}
 
+		$this->layout = 'main';
 		$model = new LoginForm();
 		if ($model->load(Yii::$app->request->post()) && $model->login()) 
 		{

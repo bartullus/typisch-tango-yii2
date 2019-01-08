@@ -27,6 +27,7 @@ AppAsset::register($this);
 <?= app\extensions\menus\TtAdminMenu::widget(); ?>
 
     <div id="page-wrapper">
+				<?= app\extensions\ttwidget\SystemHint::widget(); ?>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

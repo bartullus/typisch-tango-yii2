@@ -105,7 +105,9 @@ $config = [
 			
   ],
   
-	'params' => $params,
+	'params' => array_merge($params, [
+		'systemHint' => 'Testsystem lokal (YII 2.0)',		
+	]),
 ];
 
 if (YII_ENV_DEV) {

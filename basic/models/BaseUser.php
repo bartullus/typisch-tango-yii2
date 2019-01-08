@@ -127,6 +127,16 @@ class BaseUser
 		return $this->getAttribute('id');
 	}
 
+	public function getUsername()
+	{
+		return $this->getAttribute('username');
+	}
+
+	public function getLastLoginTime()
+	{
+		return $this->getAttribute('last_login_time');
+	}
+
 	public function getAuthKey()
 	{
 		return $this->getAttribute('authKey');

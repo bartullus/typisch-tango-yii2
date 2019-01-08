@@ -26,6 +26,7 @@ AppAsset::register($this);
 <?= app\extensions\menus\TtMainMenu::widget(); ?>
 
     <div id="body" class="container" tabindex="-1">
+				<?= app\extensions\ttwidget\SystemHint::widget(); ?>
         <?= $content ?>
     </div>
 	
