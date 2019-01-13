@@ -1,0 +1,27 @@
+/* 
+    Created on : 27.08.2014, 13:48:34
+    Author     : Admin
+*/
+
+table.table td.number {
+	text-align: right;
+}
+
+table.table td.text {
+	text-align: left;
+}
+
+table.table td.picture {
+	text-align: center;
+}
+
+table.table td.functions {
+	text-align: left;
+}
+
+table.table td.timestamp {
+	text-align: left;
+	font-size: 0.5em;
+}
+
+

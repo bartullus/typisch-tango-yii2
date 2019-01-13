@@ -39,11 +39,25 @@ echo app\extensions\buttons\LinkButton::widget([
 		'icon'    => 'ui-icon-list',
 ]);
 
+echo app\extensions\searchform\SearchForm::widget([
+		'searchRoute' => '/cal/calendar/userIndex',
+		'placeholder' => 'Suche in Veranstaltungen',
+]);
+
+echo CHtml::tag('h2', array(), "Zuletzt bearbeitete Veranstaltungen");
+echo app\extensions\table\ModelTableWidget::widget([
+			'models'  => $events,
+			'columns' => array('date', 'title', 'location_id'),
+			'options'	=> array('edit' => true),
+]);
+
 ?>
 
+<!--
 <p id="logout">
 	<?= Html::a('Logout', Url::toRoute('/intern/logout')); ?>
 </p>
-
+-->
 <code><?= __FILE__ ?></code>
+
 </div>

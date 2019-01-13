@@ -16,6 +16,5 @@ class AssetMenu
 		'css/mainmenu.css',
 		'css/usermenu.css',
 		'css/adminmenu.css',
-	];
- 
+	]; 
 }

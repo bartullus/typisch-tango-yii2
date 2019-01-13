@@ -1,14 +1,14 @@
 <?php
 namespace app\extensions\ttwidget;
+
+use Yii;
+use yii\bootstrap\Alert;
+
 /**
  * Description of Flash Display
  *
  * @author herbert
  */
-
-use Yii;
-//use yii\helpers\Html;
-use yii\bootstrap\Alert;
 
 class FlashDisplay 
 	extends \app\extensions\ttwidget\TtWidget
