@@ -49,11 +49,11 @@ class ModelTableWidget
 		$columns = $this->_getColumns();
 		$attrParams = $this->_getAttrParams($columns);
 		
-		$txt = Html::openTag($this->tagName, $this->_tableOptions());
+		$txt = Html::beginTag($this->tagName, $this->_tableOptions());
 		$txt.= $this->_displayTableHead($columns);
 		$txt.= $this->_displayTableBody($columns, $attrParams);
 		$txt.= $this->_displayTableFoot($columns);
-		$txt.= Html::closeTag($this->tagName);
+		$txt.= Html::endTag($this->tagName);
 		return $txt;
 	}
 	
@@ -118,9 +118,9 @@ class ModelTableWidget
 			return;
 		}
 			
-		$txt = Html::openTag($this->tagNameHead);
+		$txt = Html::beginTag($this->tagNameHead);
 		$txt.= $this->_displayHeadRows($columns, $attrParams);
-		$txt.= Html::closeTag($this->tagNameHead);
+		$txt.= Html::endTag($this->tagNameHead);
 		return $txt;
 	}
 		
@@ -199,7 +199,7 @@ class ModelTableWidget
 		
 		$control = $this->getController();
 		
-		$txt = CHtml::openTag($this->tagNameBody);
+		$txt = Html::beginTag($this->tagNameBody);
 		foreach($this->models as $model) {
 			
 			if(!$model->displayTableLine($attrParams)) {
@@ -235,21 +235,21 @@ class ModelTableWidget
 			
 			$txt = $this->_displayRow($columns, $items, $options, $this->tagCol);
 		}
-		$txt = Html::closeTag($this->tagNameBody);
+		$txt = Html::endTag($this->tagNameBody);
 		return $txt;
 	}
 	
 	function _displayTableFoot($columns) {
 		
 		// for subclasses
-		//echo CHtml::openTag($this->tagNameBody);
-		//echo CHtml::closeTag($this->tagNameBody);
+		//echo Html::beginTag($this->tagNameBody);
+		//echo Html::endTag($this->tagNameBody);
 		return null;
 	}
 	
 	function _displayRow ($columns, $items, $options, $itemTag) {
 		
-		$txt = CHtml::openTag($this->tagRow, $this->_rowOptions($options));
+		$txt = Html::beginTag($this->tagRow, $this->_rowOptions($options));
 		
 		foreach($columns as $colName) {
 			
@@ -261,7 +261,7 @@ class ModelTableWidget
 			
 			$txt.= Html::tag($itemTag,	$items[$colName], $opt);
 		}
-		$txt.= Html::closeTag($this->tagRow)."\r\n";
+		$txt.= Html::endTag($this->tagRow)."\r\n";
 		return $txt;
 	}
 	
@@ -295,5 +295,4 @@ class ModelTableWidget
 				'model' => $model,
 		]);
 	}	
-
 }

@@ -44,7 +44,7 @@ echo app\extensions\searchform\SearchForm::widget([
 		'placeholder' => 'Suche in Veranstaltungen',
 ]);
 
-echo CHtml::tag('h2', array(), "Zuletzt bearbeitete Veranstaltungen");
+echo Html::tag('h2', "Zuletzt bearbeitete Veranstaltungen");
 echo app\extensions\table\ModelTableWidget::widget([
 			'models'  => $events,
 			'columns' => array('date', 'title', 'location_id'),

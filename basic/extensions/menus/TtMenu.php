@@ -77,9 +77,9 @@ class TtMenu
 		return null;
 	}
 		
-	public function createUrl ($path) {
+	public function createUrl ($path, $params = array()) {
 		
-		return Yii::$app->createUrl($path);
+		return Yii::$app->createUrl($path, $params);
 	}
 
 	public function createMenu($items) {

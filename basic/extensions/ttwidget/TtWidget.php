@@ -7,6 +7,7 @@ namespace app\extensions\ttwidget;
  * @author herbert
  */
 
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Url;
 
@@ -15,6 +16,11 @@ class TtWidget
 {
 	var $oneday = 86400; // seconds of a day
 	var $publishedDir;
+	
+	public function getController() 
+	{
+			return Yii::$app->controller;
+	}
 	
 	public function createUrl ($path, $params = array()) {
 		

@@ -10,7 +10,7 @@ use Yii;
  */
 
 class User 
-	extends \yii\base\Object 
+	extends \yii\base\BaseObject 
 	implements \yii\web\IdentityInterface
 {
     public $id;
